@@ -19,28 +19,24 @@
 
 <configuration>
 
-    <property>
-        <name>javax.jdo.option.ConnectionURL</name>
-        <value>jdbc:postgresql://dbt-hive-metastore/metastore</value>
+   <property>
+    <name>hive.metastore.uris</name>
+    <value>thrift://hive-metastore:9083</value>
+  </property>
+   <property>
+        <name>fs.s3a.aws.credentials.provider</name>
+        <value>com.amazonaws.auth.DefaultAWSCredentialsProviderChain</value>
     </property>
-
     <property>
-        <name>javax.jdo.option.ConnectionDriverName</name>
-        <value>org.postgresql.Driver</value>
+        <name>fs.s3a.endpoint</name>
+        <value>http://minio:9000</value>
     </property>
-
     <property>
-        <name>javax.jdo.option.ConnectionUserName</name>
-        <value>dbt</value>
+        <name>fs.s3a.path.style.access</name>
+        <value>true</value>
     </property>
-
     <property>
-        <name>javax.jdo.option.ConnectionPassword</name>
-        <value>dbt</value>
-    </property>
-
-    <property>
-        <name>hive.metastore.schema.verification</name>
-        <value>false</value>
+        <name>fs.s3a.impl</name>
+        <value>org.apache.hadoop.fs.s3a.S3AFileSystem</value>
     </property>
 </configuration>

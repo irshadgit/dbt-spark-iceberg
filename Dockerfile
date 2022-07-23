@@ -18,11 +18,19 @@ RUN apt-get update && \
     tar xzf "spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz" && \
     rm "spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz" && \
     mv "spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}" /usr/spark && \
-    ln -s /usr/share/java/postgresql-jdbc4.jar /usr/spark/jars/postgresql-jdbc4.jar && \
+    ln -s /usr/share/java/postgresql-jdbc4.jar /usr/spark/jars/postgresql-jdbc4.jar
+
+# Installing libraries
+RUN wget -q "https://search.maven.org/remotecontent?filepath=org/apache/iceberg/iceberg-spark-runtime-3.2_2.12/0.14.1/iceberg-spark-runtime-3.2_2.12-0.14.1.jar" -o iceberg-spark-runtime-3.2_2.12-0.14.1.jar  && \
+    wget -q "https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/3.2.4/hadoop-aws-3.2.4.jar" && \
+    wget -q "https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.11.901/aws-java-sdk-bundle-1.11.901.jar" && \
+    mv remotecontent?filepath=org%2Fapache%2Ficeberg%2Ficeberg-spark-runtime-3.2_2.12%2F0.14.1%2Ficeberg-spark-runtime-3.2_2.12-0.14.1.jar /usr/spark/jars/ && \
+    mv hadoop-aws-3.2.4.jar /usr/spark/jars/ && \
+    mv aws-java-sdk-bundle-1.11.901.jar /usr/spark/jars/ && \
     apt-get remove -y wget && \
     apt-get autoremove -y && \
     apt-get clean
-
+    
 COPY entrypoint.sh /scripts/
 RUN chmod +x /scripts/entrypoint.sh
 
