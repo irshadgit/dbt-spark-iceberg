@@ -1,2 +1,5 @@
 .hive-metastore/**
 .minio-data/**
+ve/**
+docker/.minio-data/**
+docker/.hive-metastore/**
