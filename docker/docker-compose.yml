@@ -1,20 +1,24 @@
 version: "3.7"
 services:
+
   hive-metastore:
     image: 'bitsondatadev/hive-metastore:latest'
     hostname: hive-metastore
     ports:
       - '9083:9083' # Metastore Thrift
     volumes:
-      - ./config/metastore-site.xml:/opt/apache-hive-metastore-3.0.0-bin/conf/metastore-site.xml:ro
+      - ./config/metastore-site.xml:/opt/apache-hive-metastore-3.0.0-bin/conf/metastore-site.xml
     environment:
       - METASTORE_DB_HOSTNAME=mariadb
       - AWS_ACCESS_KEY_ID=minioadmin
       - AWS_SECRET_ACCESS_KEY=minioadmin
     depends_on:
       - mariadb
-  dbt-spark2-thrift:
-    image: spark-ir
+    networks:
+      - dbt_sample_network
+
+  spark-thrift:
+    image: spark-thrift
     build:
       context: .
       dockerfile: ./Dockerfile
@@ -34,6 +38,8 @@ services:
       - WAIT_FOR=hive-metastore:9083
       - AWS_ACCESS_KEY_ID=minioadmin
       - AWS_SECRET_ACCESS_KEY=minioadmin
+    networks:
+      - dbt_sample_network
 
   mariadb:
     image: 'mariadb:latest'
@@ -47,6 +53,8 @@ services:
       MYSQL_DATABASE: metastore_db
     volumes:
       - ./.hive-metastore:/var/lib/mysql
+    networks:
+      - dbt_sample_network
 
   minio:
     image: 'minio/minio:latest'
@@ -62,3 +70,9 @@ services:
       MINIO_SECRET_KEY: minioadmin
       MINIO_API_SELECT_PARQUET: "on"
     command: server --console-address ":9001" /data
+    networks:
+      - dbt_sample_network
+
+networks:
+  dbt_sample_network:
+    driver: bridge

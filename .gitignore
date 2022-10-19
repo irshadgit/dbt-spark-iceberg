@@ -3,3 +3,4 @@
 ve/**
 docker/.minio-data/**
 docker/.hive-metastore/**
+.idea/**
