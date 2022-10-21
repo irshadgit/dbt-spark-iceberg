@@ -1,0 +1,10 @@
+dbt_iceberg_sample:
+  outputs:
+    dev:
+      host: localhost
+      method: thrift
+      port: 10000
+      schema: test_schema
+      threads: 10
+      type: spark
+  target: dev
