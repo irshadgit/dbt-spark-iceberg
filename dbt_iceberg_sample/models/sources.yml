@@ -4,6 +4,6 @@ sources:
   - name: test_source
     schema: test_schema
     tables:
-      - name: vaccination_data
+      - name: vctn_data
       - name: state_dist_details
       - name: state_details

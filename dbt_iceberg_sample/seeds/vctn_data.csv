@@ -1,4 +1,4 @@
-state_id,district_id,vaccination_date,no_dose
+state_id,district_id,vctn_date,no_vctn_dose
 1,1,2022/10/16,40000
 1,2,2022/10/17,30000
 2,1,2022/10/18,40000

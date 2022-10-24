@@ -17,11 +17,33 @@ services:
     networks:
       - dbt_sample_network
 
+  dbt-workbench:
+    image: dbt-workbench
+    build:
+      context: ../
+      dockerfile: ./docker/dbtBeelineDockerfile
+    volumes:
+      - ../dbt_iceberg_sample/:/opt/dbt-iceberg-sample
+    command: sleep 3600000
+    networks:
+      - dbt_sample_network
+
+#  beeline:
+#    image: image: 'bitsondatadev/hive-metastore:latest'
+#    build:
+#      context: ../
+#      dockerfile: ./docker/dbtBeelineDockerfile
+#    volumes:
+#      - ../dbt_iceberg_sample/:/opt/dbt-iceberg-sample
+#    command: sleep 3600000
+#    networks:
+#      - dbt_sample_network
+
   spark-thrift:
     image: spark-thrift
     build:
       context: .
-      dockerfile: ./Dockerfile
+      dockerfile: SparkThriftDockerfile
     ports:
       - "10000:10000"
       - "4040:4040"
@@ -30,6 +52,7 @@ services:
     command: >
       --class org.apache.spark.sql.hive.thriftserver.HiveThriftServer2
       --name Thrift JDBC/ODBC Server
+#      --hiveconf hive.server2.thrift.bind.host=0.0.0.0
     volumes:
       - ./.spark-warehouse/:/spark-warehouse/
       - ./config/hive-site.xml:/usr/spark/conf/hive-site.xml
@@ -38,6 +61,7 @@ services:
       - WAIT_FOR=hive-metastore:9083
       - AWS_ACCESS_KEY_ID=minioadmin
       - AWS_SECRET_ACCESS_KEY=minioadmin
+      - HIVE_SERVER2_THRIFT_BIND_HOST=spark-thrift
     networks:
       - dbt_sample_network
 
