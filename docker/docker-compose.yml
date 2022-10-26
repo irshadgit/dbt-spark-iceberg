@@ -17,30 +17,6 @@ services:
     networks:
       - dbt_sample_network
 
-  dbt-workbench:
-    image: dbt-workbench
-    container_name: dbt-workbench
-    build:
-      context: ../
-      dockerfile: ./docker/dbtBeelineDockerfile
-      target: "dbt-spark"
-    volumes:
-      - ../dbt_iceberg_sample/:/opt/dbt-iceberg-sample
-    command: "3600000"
-    depends_on:
-      - spark-thrift
-    networks:
-      - dbt_sample_network
-
-  beeline:
-    container_name: beeline
-    image: 'akanto/beeline'
-#    volumes:
-#      - ../dbt_iceberg_sample/:/opt/dbt-iceberg-sample
-    command: sleep 3600000
-    networks:
-      - dbt_sample_network
-
   spark-thrift:
     image: spark-thrift
     container_name: spark-thrift
@@ -67,7 +43,6 @@ services:
       - HIVE_SERVER2_THRIFT_BIND_HOST=spark-thrift
     networks:
       - dbt_sample_network
-#        ipv4_address: 173.26.0.4
 
   mariadb:
     image: 'mariadb:latest'
@@ -103,6 +78,4 @@ services:
 
 networks:
   dbt_sample_network:
-    ipam:
-      config:
-        - subnet: 173.26.0.0/28
+    driver: bridge

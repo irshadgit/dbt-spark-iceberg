@@ -9,6 +9,13 @@ Sample project to demonstrate dbt iceberg integeration using spark thrift.
 - [dbt_iceberg_sample](dbt_iceberg_sample/README.md) - dbt project folder.
 - [docker](docker/Readme.md) - Docker & Docker compose file.
 Doker - https://github.com/dbt-labs/dbt-spark/blob/main/dbt/include/spark/macros/materializations/incremental/validate.sql
+Docker command - 
+docker run \
+--network=host \
+--mount type=bind,source=/home/irshad/Documents/my-repo/dbt-spark-iceberg/dbt_iceberg_sample,target=/usr/app \
+--mount type=bind,source=/home/irshad/Documents/my-repo/dbt-spark-iceberg/dbt_iceberg_sample,target=/root/.dbt/ \
+ghcr.io/dbt-labs/dbt-spark \
+ls
 
 
 
