@@ -1,10 +1,11 @@
 dbt_iceberg_sample:
   outputs:
     dev:
-      host: localhost
+      host: spark-thrift
       method: thrift
       port: 10000
       schema: test_schema
       threads: 10
       type: spark
+      auth: NOSASL
   target: dev

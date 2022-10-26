@@ -13,3 +13,4 @@ if [ -n "$WAIT_FOR" ]; then
 fi
 
 exec spark-submit "$@"
+#exec start-thriftserver.sh "$@"
