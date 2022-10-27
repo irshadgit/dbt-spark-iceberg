@@ -3,6 +3,7 @@ services:
 
   hive-metastore:
     image: 'bitsondatadev/hive-metastore:latest'
+    container_name: hive-metastore
     hostname: hive-metastore
     ports:
       - '9083:9083' # Metastore Thrift
@@ -47,6 +48,7 @@ services:
   mariadb:
     image: 'mariadb:latest'
     hostname: mariadb
+    container_name: mariadb
     ports:
       - '3306:3306'
     environment:

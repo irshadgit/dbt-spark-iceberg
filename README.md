@@ -17,5 +17,8 @@ docker run \
 ghcr.io/dbt-labs/dbt-spark \
 ls
 
+dbt docker run link - https://docs.getdbt.com/docs/get-started/docker-install
+
+docker exec -it spark-thrift /usr/spark/bin/beeline -u "jdbc:hive2://spark-thrift:10000/default;auth=noSasl" -n root
 
 
