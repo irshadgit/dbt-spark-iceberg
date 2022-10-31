@@ -15,6 +15,7 @@ services:
       - AWS_SECRET_ACCESS_KEY=minioadmin
     depends_on:
       - mariadb
+      - minio
     networks:
       - dbt_sample_network
 
@@ -29,6 +30,7 @@ services:
       - "4040:4040"
     depends_on:
       - hive-metastore
+      - createbuckets
     command: >
       --class org.apache.spark.sql.hive.thriftserver.HiveThriftServer2
       --name Thrift JDBC/ODBC Server
@@ -75,6 +77,21 @@ services:
       MINIO_SECRET_KEY: minioadmin
       MINIO_API_SELECT_PARQUET: "on"
     command: server --console-address ":9001" /data
+    networks:
+      - dbt_sample_network
+
+  createbuckets:
+    image: minio/mc
+    depends_on:
+      - minio
+    entrypoint: >
+      /bin/sh -c "
+      /usr/bin/mc config host add myminio http://minio:9000 minioadmin minioadmin;
+      /usr/bin/mc rm -r --force myminio/warehouse;
+      /usr/bin/mc mb myminio/warehouse;
+      /usr/bin/mc policy download myminio/warehouse;
+      exit 0;
+      "
     networks:
       - dbt_sample_network
 
