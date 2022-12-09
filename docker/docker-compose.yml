@@ -87,7 +87,6 @@ services:
     entrypoint: >
       /bin/sh -c "
       /usr/bin/mc config host add myminio http://minio:9000 minioadmin minioadmin;
-      /usr/bin/mc rm -r --force myminio/warehouse;
       /usr/bin/mc mb myminio/warehouse;
       /usr/bin/mc policy download myminio/warehouse;
       exit 0;
